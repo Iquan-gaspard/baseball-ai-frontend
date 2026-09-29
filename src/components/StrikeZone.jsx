@@ -22,6 +22,27 @@ export const ZONE_COORDINATES = {
   壞_挖地瓜: { x: 50, y: 134 },
 };
 
+export const ZONE_EN = {
+  左上: "Top-L",
+  中上: "Top-M",
+  右上: "Top-R",
+  左中: "Mid-L",
+  正中: "Middle",
+  右中: "Mid-R",
+  左下: "Bot-L",
+  中下: "Bot-M",
+  右下: "Bot-R",
+  壞_左上: "Chase Top-L",
+  壞_中上: "Chase Top-M",
+  壞_右上: "Chase Top-R",
+  壞_左中: "Chase Mid-L",
+  壞_右中: "Chase Mid-R",
+  壞_左下: "Chase Bot-L",
+  壞_中下: "Chase Bot-M",
+  壞_右下: "Chase Bot-R",
+  壞_挖地瓜: "In the Dirt",
+};
+
 /**
  * 九宮格 UI 元件
  * @param {Array} pitches - 要繪製的球跡陣列 [{x, y, isStrike, isModified, num}]
