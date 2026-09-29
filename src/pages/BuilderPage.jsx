@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from "react";
-import StrikeZone, { ZONE_COORDINATES } from "../components/StrikeZone";
 import Select from "react-select"; // 🌟 1. 匯入
 import { API_BASE_URL, selectStyles } from "../App";
+import StrikeZone, {
+  ZONE_COORDINATES,
+  ZONE_EN,
+} from "../components/StrikeZone";
 
 export default function BuilderPage({ pitcherId, pitcherData }) {
   const [batters, setBatters] = useState([]);
@@ -132,7 +135,7 @@ export default function BuilderPage({ pitcherId, pitcherData }) {
           <strong
             style={{ fontSize: "16px", color: "#555", whiteSpace: "nowrap" }}
           >
-            對戰打者：
+            對戰打者 (Batter)：
           </strong>
           <div style={{ flex: 1 }}>
             <Select
@@ -152,7 +155,7 @@ export default function BuilderPage({ pitcherId, pitcherData }) {
               options={batterOptions}
               isLoading={isLoading}
               isSearchable={true}
-              placeholder="請輸入英文搜尋打者..."
+              placeholder="搜尋打者 (Search Batter)..."
               styles={selectStyles}
             />
           </div>
@@ -170,7 +173,7 @@ export default function BuilderPage({ pitcherId, pitcherData }) {
           <strong
             style={{ fontSize: "16px", color: "#555", whiteSpace: "nowrap" }}
           >
-            站位：
+            站位 (Stand)：
           </strong>
           <select
             value={selectedStand}
@@ -200,7 +203,7 @@ export default function BuilderPage({ pitcherId, pitcherData }) {
             <div className="lab-controls" style={{ marginBottom: "10px" }}>
               <div className="control-group">
                 <label style={{ color: "#e67e22", fontWeight: "bold" }}>
-                  配球長度
+                  配球數 (Pitches)
                 </label>
                 <input
                   type="number"
@@ -227,7 +230,9 @@ export default function BuilderPage({ pitcherId, pitcherData }) {
                 disabled={isSimulating}
                 style={{ backgroundColor: "#e67e22" }}
               >
-                {isSimulating ? "運算中..." : "執行完整序列"}
+                {isSimulating
+                  ? "運算中 (Simulating)..."
+                  : "執行序列 (Run Sequence)"}
               </button>
             </div>
 
@@ -283,7 +288,7 @@ export default function BuilderPage({ pitcherId, pitcherData }) {
                   >
                     {Object.keys(ZONE_COORDINATES).map((zone) => (
                       <option key={zone} value={zone}>
-                        {zone.replace("壞_", "壞_ ")}
+                        {zone.replace("壞_", "壞_ ")} ({ZONE_EN[zone]})
                       </option>
                     ))}
                   </select>
@@ -309,6 +314,9 @@ export default function BuilderPage({ pitcherId, pitcherData }) {
                 >
                   ℹ️ 請設定球數並選擇球種。系統將計算每顆球在「歷史殘影
                   Delta」影響下的逐球期望值。
+                  <br />
+                  (Set pitch types and locations. The model calculates expected
+                  outcomes influenced by the historical sequence delta.)
                 </div>
               ) : (
                 simResults.map((r, idx) => (
@@ -332,19 +340,19 @@ export default function BuilderPage({ pitcherId, pitcherData }) {
                       </div>
                       <div className="badge-container">
                         <span className="badge badge-take">
-                          👀 不揮棒 {r.probs.take}%
+                          👀 不揮棒 (Take) {r.probs.take}%
                         </span>
                         <span className="badge badge-whiff">
-                          💨 揮空 {r.probs.whiff}%
+                          💨 揮空 (Whiff) {r.probs.whiff}%
                         </span>
                         <span className="badge badge-foul">
-                          🛑 界外 {r.probs.foul}%
+                          🛑 界外 (Foul) {r.probs.foul}%
                         </span>
                         <span className="badge badge-weak">
-                          🏏 弱擊 {r.probs.weak_contact}%
+                          🏏 弱擊 (Weak) {r.probs.weak_contact}%
                         </span>
                         <span className="badge badge-hard">
-                          🚀 強擊 {r.probs.hard_contact}%
+                          🚀 強擊 (Hard Hit) {r.probs.hard_contact}%
                         </span>
                       </div>
                     </div>

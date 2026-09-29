@@ -52,7 +52,7 @@ function App() {
     <Router>
       <div className="container">
         <div className="controls">
-          <strong style={{ fontSize: "18px" }}>對戰組合：</strong>
+          <strong style={{ fontSize: "18px" }}>對戰組合 (Matchup):</strong>
 
           {/* 🌟 3. 換成強大的 React Select */}
           <div style={{ flex: 1, minWidth: "250px" }}>
@@ -67,7 +67,7 @@ function App() {
               options={pitcherOptions}
               isLoading={isLoading}
               isSearchable={true}
-              placeholder="請輸入英文搜尋投手..."
+              placeholder="請輸入英文搜尋投手 (Search Pitcher)..."
               styles={selectStyles}
             />
           </div>
@@ -80,7 +80,7 @@ function App() {
               isActive ? "tab-btn active" : "tab-btn"
             }
           >
-            📊 實戰打席分析
+            📊 實戰打席分析 (Game At-Bats)
           </NavLink>
           <NavLink
             to="/builder"
@@ -88,7 +88,7 @@ function App() {
               isActive ? "tab-btn active" : "tab-btn"
             }
           >
-            🎯 自由配球實驗室
+            🎯 自由配球實驗室 (Sequence Builder)
           </NavLink>
         </div>
 

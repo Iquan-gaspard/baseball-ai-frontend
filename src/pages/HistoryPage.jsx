@@ -1,8 +1,11 @@
 // 檔案路徑: src/pages/HistoryPage.jsx
 import React, { useState, useEffect } from "react";
-import StrikeZone, { ZONE_COORDINATES } from "../components/StrikeZone";
 import Select from "react-select"; // 🌟 1. 匯入
 import { API_BASE_URL, selectStyles } from "../App";
+import StrikeZone, {
+  ZONE_COORDINATES,
+  ZONE_EN,
+} from "../components/StrikeZone";
 
 export default function HistoryPage({ pitcherId, pitcherData }) {
   const [atBats, setAtBats] = useState([]);
@@ -228,7 +231,7 @@ export default function HistoryPage({ pitcherId, pitcherData }) {
         <strong
           style={{ fontSize: "16px", color: "#555", whiteSpace: "nowrap" }}
         >
-          選擇實戰打席：
+          選擇實戰打席 (Select At-Bat)：
         </strong>
         <div style={{ flex: 1 }}>
           <Select
@@ -240,8 +243,8 @@ export default function HistoryPage({ pitcherId, pitcherData }) {
             options={abOptions}
             isLoading={isLoading}
             isSearchable={true}
-            placeholder="請輸入英文搜尋打者或日期..."
-            noOptionsMessage={() => "無符合條件的打席"}
+            placeholder="搜尋打者或日期 (Search Batter/Date)..."
+            noOptionsMessage={() => "無符合條件的打席 (No matching at-bats)"}
             styles={selectStyles}
           />
         </div>
@@ -288,7 +291,7 @@ export default function HistoryPage({ pitcherId, pitcherData }) {
 
       <div className="panel">
         <div className="panel-header" style={{ color: "var(--highlight)" }}>
-          反事實實驗室 (Counterfactual Lab) - 改變決戰球 (N) / 佈局球 (N-1)
+          反事實實驗室 (Counterfactual Lab) - 決戰球 (Putaway) / 佈局球 (Setup)
         </div>
         <div className="at-bat-view">
           <StrikeZone pitches={renderPitches} />
@@ -296,7 +299,9 @@ export default function HistoryPage({ pitcherId, pitcherData }) {
           <div style={{ flex: 1 }}>
             <div className="lab-controls">
               <div className="control-group">
-                <label style={{ color: "var(--highlight)" }}>戰術選擇</label>
+                <label style={{ color: "var(--highlight)" }}>
+                  戰術選擇 (Strategy)
+                </label>
                 <select
                   value={simMode}
                   onChange={(e) => {
@@ -304,13 +309,15 @@ export default function HistoryPage({ pitcherId, pitcherData }) {
                     setSimResult(null);
                   }}
                 >
-                  <option value="last">改變決戰球 (第 N 球)</option>
-                  <option value="second_last">改變佈局球 (第 N-1 球)</option>
+                  <option value="last">改變決戰球 (Putaway Pitch - N)</option>
+                  <option value="second_last">
+                    改變佈局球 (Setup Pitch - N-1)
+                  </option>
                 </select>
               </div>
 
               <div className="control-group">
-                <label>改變球種</label>
+                <label>改變球種 (Pitch Type)</label>
                 <select
                   value={newPitchType}
                   onChange={(e) => setNewPitchType(e.target.value)}
@@ -324,14 +331,14 @@ export default function HistoryPage({ pitcherId, pitcherData }) {
               </div>
 
               <div className="control-group">
-                <label>改變進壘位置</label>
+                <label>進壘位置 (Location)</label>
                 <select
                   value={newPitchZone}
                   onChange={(e) => setNewPitchZone(e.target.value)}
                 >
                   {Object.keys(ZONE_COORDINATES).map((zone) => (
                     <option key={zone} value={zone}>
-                      {zone.replace("壞_", "壞_ ")}
+                      {zone.replace("壞_", "壞_ ")} ({ZONE_EN[zone]})
                     </option>
                   ))}
                 </select>
@@ -342,17 +349,19 @@ export default function HistoryPage({ pitcherId, pitcherData }) {
                 onClick={runSimulation}
                 disabled={isSimulating || currentSequence.length === 0}
               >
-                {isSimulating ? "運算中..." : "重新模擬打席"}
+                {isSimulating
+                  ? "運算中 (Simulating)..."
+                  : "重新模擬 (Re-Simulate)"}
               </button>
             </div>
 
             {/* 5 類別賽局期望值結果 */}
             <div className="metrics-grid">
-              {renderMetric("不揮棒", "👀", 0, null)}
-              {renderMetric("揮空", "💨", 1, true)}
-              {renderMetric("界外", "🛑", 2, true)}
-              {renderMetric("弱擊球", "🏏", 3, true)}
-              {renderMetric("強擊球", "🚀", 4, false)}
+              {renderMetric("不揮棒 (Take)", "👀", 0, null)}
+              {renderMetric("揮空 (Whiff)", "💨", 1, true)}
+              {renderMetric("界外 (Foul)", "🛑", 2, true)}
+              {renderMetric("弱擊球 (Weak Contact)", "🏏", 3, true)}
+              {renderMetric("強擊球 (Hard Hit)", "🚀", 4, false)}
             </div>
           </div>
         </div>
